@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root {
+  --vt-duration: 0.3s;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--vt-duration);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-to-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+::view-transition-old(.slide-left) {
+  animation: slide-to-left var(--vt-duration) both ease-out,
+    fade-out var(--vt-duration) both ease-out;
+}
+
+::view-transition-new(.slide-left) {
+  animation: slide-from-right var(--vt-duration) both ease-in,
+    fade-in var(--vt-duration) both ease-in;
+}
+
+::view-transition-old(.slide-right) {
+  animation: slide-to-right var(--vt-duration) both ease-out,
+    fade-out var(--vt-duration) both ease-out;
+}
+
+::view-transition-new(.slide-right) {
+  animation: slide-from-left var(--vt-duration) both ease-in,
+    fade-in var(--vt-duration) both ease-in;
+}
+
+/* these are needed to prevent the text content from stretching when the 
+card's height changes */
+
+::view-transition-old(.card),
+::view-transition-new(.card) {
+  /* needed to animate the height instead of the cross-fade */
+  height: 100%;
+}
+
+::view-transition-image-pair(.card-content) {
+  /* needed to prevent the text from appearing outside the card when animating the height change, this ensures a "reveal" effect */
+  overflow: hidden;
+}
