@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import type { Review } from "./mockData";
 
 interface ReviewCardProps {
@@ -42,12 +43,14 @@ export default function ReviewCard({
           >
             <span>{review.avatarInitials}</span>
           </span>
-          <span
-            onClick={onNameClick}
-            className="font-bold text-blue-400 cursor-pointer hover:text-blue-400"
-          >
-            {review.name}
-          </span>
+          <ViewTransition name={`profile-name-${review.avatarInitials}`}>
+            <span
+              onClick={onNameClick}
+              className="font-bold text-blue-400 cursor-pointer hover:text-blue-400"
+            >
+              {review.name}
+            </span>
+          </ViewTransition>
           <span className="text-sm text-gray-400 ml-2">• {review.date}</span>
         </div>
         <p className="text-gray-300">{review.text}</p>

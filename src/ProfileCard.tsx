@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import type { Profile } from "./mockData";
 
 interface ProfileCardProps {
@@ -22,7 +23,9 @@ export default function ProfileCard({ profile, onBack }: ProfileCardProps) {
             >
               <span>{profile.initials}</span>
             </div>
-            <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
+            <ViewTransition name={`profile-name-${profile.initials}`}>
+              <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
+            </ViewTransition>
           </div>
           <div className="space-y-3">
             <div>
