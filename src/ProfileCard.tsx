@@ -15,9 +15,12 @@ export default function ProfileCard({ profile, onBack }: ProfileCardProps) {
       >
         ← Back to Reviews
       </button>
-      <ViewTransition name={`card-${profile.initials}`}>
+      <ViewTransition default="card" name={`card-${profile.initials}`}>
         <div className="bg-gray-800 p-6 rounded-lg">
-          <ViewTransition name={`card-content-${profile.initials}`}>
+          <ViewTransition
+            default="card-content"
+            name={`card-content-${profile.initials}`}
+          >
             <div>
               <div className="flex flex-col items-center mb-6">
                 <ViewTransition name={`avatar-container-${profile.initials}`}>

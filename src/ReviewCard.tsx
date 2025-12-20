@@ -33,9 +33,12 @@ export default function ReviewCard({
   index = 0,
 }: ReviewCardProps) {
   return (
-    <ViewTransition name={`card-${review.avatarInitials}`}>
+    <ViewTransition default="card" name={`card-${review.avatarInitials}`}>
       <div className="bg-gray-800 p-4 rounded-lg">
-        <ViewTransition name={`card-content-${review.avatarInitials}`}>
+        <ViewTransition
+          default="card-content"
+          name={`card-content-${review.avatarInitials}`}
+        >
           <div>
             <div className="flex items-center mb-2">
               <ViewTransition

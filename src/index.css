@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+::view-transition-old(.card),
+::view-transition-new(.card) {
+  /* needed to animate the height instead of the cross-fade */
+  height: 100%;
+}
+
+::view-transition-image-pair(.card-content) {
+  /* needed to prevent the text from appearing outside the card when animating the height change, this ensures a "reveal" effect */
+  overflow: hidden;
+}
