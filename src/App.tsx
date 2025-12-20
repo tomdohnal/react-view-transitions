@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ViewTransition, startTransition, useState } from "react";
 import ReviewCard from "./ReviewCard";
 import ProfileCard from "./ProfileCard";
 import TabButton from "./TabButton";
@@ -19,83 +19,93 @@ function App() {
   const handleNameClick = (name: string) => {
     const profileKey = getNameToProfileKey(name);
 
-    setSelectedProfile(profileKey);
+    startTransition(() => {
+      setSelectedProfile(profileKey);
+    });
   };
 
   const handleShowDetailsClick = () => {
-    setCurrentTab(currentTab ? null : "reviews");
+    startTransition(() => {
+      setCurrentTab(currentTab ? null : "reviews");
+    });
   };
 
   const createTabClickHandler = (tab: "reviews" | "photos") => () => {
-    setCurrentTab(tab);
+    startTransition(() => {
+      setCurrentTab(tab);
+    });
   };
 
   const handleBackClick = () => {
-    setSelectedProfile(null);
+    startTransition(() => {
+      setSelectedProfile(null);
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <button
-        onClick={handleShowDetailsClick}
-        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        {`${currentTab ? "Hide" : "Show"} Details`}
-      </button>
-
-      <div className="mt-4">
-        {currentTab && (
-          <div className="flex border-b border-gray-700">
-            <TabButton
-              label="Reviews"
-              isActive={currentTab === "reviews"}
-              onClick={createTabClickHandler("reviews")}
-            />
-            <TabButton
-              label="Photos"
-              isActive={currentTab === "photos"}
-              onClick={createTabClickHandler("photos")}
-              className="ml-2"
-            />
-          </div>
-        )}
+    <ViewTransition>
+      <div className="min-h-screen bg-gray-900 text-white p-8">
+        <button
+          onClick={handleShowDetailsClick}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          {`${currentTab ? "Hide" : "Show"} Details`}
+        </button>
 
         <div className="mt-4">
-          {currentTab === "reviews" && (
-            <div className="space-y-4">
-              {selectedProfile
-                ? profileData[selectedProfile] && (
-                    <ProfileCard
-                      profile={profileData[selectedProfile]}
-                      onBack={handleBackClick}
-                    />
-                  )
-                : reviews.map((review, index) => (
-                    <ReviewCard
-                      key={index}
-                      review={review}
-                      index={index}
-                      onNameClick={() => handleNameClick(review.name)}
-                    />
-                  ))}
+          {currentTab && (
+            <div className="flex border-b border-gray-700">
+              <TabButton
+                label="Reviews"
+                isActive={currentTab === "reviews"}
+                onClick={createTabClickHandler("reviews")}
+              />
+              <TabButton
+                label="Photos"
+                isActive={currentTab === "photos"}
+                onClick={createTabClickHandler("photos")}
+                className="ml-2"
+              />
             </div>
           )}
 
-          {currentTab === "photos" && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  className="w-full h-40 object-cover rounded-lg"
-                  src={image.src}
-                  alt={image.alt}
-                />
-              ))}
-            </div>
-          )}
+          <div className="mt-4">
+            {currentTab === "reviews" && (
+              <div className="space-y-4">
+                {selectedProfile
+                  ? profileData[selectedProfile] && (
+                      <ProfileCard
+                        profile={profileData[selectedProfile]}
+                        onBack={handleBackClick}
+                      />
+                    )
+                  : reviews.map((review, index) => (
+                      <ReviewCard
+                        key={index}
+                        review={review}
+                        index={index}
+                        onNameClick={() => handleNameClick(review.name)}
+                      />
+                    ))}
+              </div>
+            )}
+
+            {currentTab === "photos" && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {images.map((image, index) => (
+                  <img
+                    key={index}
+                    className="w-full h-40 object-cover rounded-lg"
+                    src={image.src}
+                    alt={image.alt}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </ViewTransition>
   );
 }
 
