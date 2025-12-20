@@ -33,28 +33,42 @@ export default function ReviewCard({
   index = 0,
 }: ReviewCardProps) {
   return (
-    <div className="bg-gray-800 p-4 rounded-lg">
-      <div>
-        <div className="flex items-center mb-2">
-          <span
-            className={`flex mr-2 h-8 w-8 items-center justify-center rounded-full ${getAvatarColor(
-              index
-            )} text-sm font-bold text-white`}
-          >
-            <span>{review.avatarInitials}</span>
-          </span>
-          <ViewTransition name={`profile-name-${review.avatarInitials}`}>
-            <span
-              onClick={onNameClick}
-              className="font-bold text-blue-400 cursor-pointer hover:text-blue-400"
-            >
-              {review.name}
-            </span>
-          </ViewTransition>
-          <span className="text-sm text-gray-400 ml-2">• {review.date}</span>
-        </div>
-        <p className="text-gray-300">{review.text}</p>
+    <ViewTransition name={`card-${review.avatarInitials}`}>
+      <div className="bg-gray-800 p-4 rounded-lg">
+        <ViewTransition name={`card-content-${review.avatarInitials}`}>
+          <div>
+            <div className="flex items-center mb-2">
+              <ViewTransition
+                name={`avatar-container-${review.avatarInitials}`}
+              >
+                <span
+                  className={`flex mr-2 h-8 w-8 items-center justify-center rounded-full ${getAvatarColor(
+                    index
+                  )} text-sm font-bold text-white`}
+                >
+                  <ViewTransition
+                    name={`avatar-initials-${review.avatarInitials}`}
+                  >
+                    <span>{review.avatarInitials}</span>
+                  </ViewTransition>
+                </span>
+              </ViewTransition>
+              <ViewTransition name={`profile-name-${review.avatarInitials}`}>
+                <span
+                  onClick={onNameClick}
+                  className="font-bold text-blue-400 cursor-pointer hover:text-blue-400"
+                >
+                  {review.name}
+                </span>
+              </ViewTransition>
+              <span className="text-sm text-gray-400 ml-2">
+                • {review.date}
+              </span>
+            </div>
+            <p className="text-gray-300">{review.text}</p>
+          </div>
+        </ViewTransition>
       </div>
-    </div>
+    </ViewTransition>
   );
 }
