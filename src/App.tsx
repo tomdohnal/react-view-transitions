@@ -1,4 +1,9 @@
-import { ViewTransition, startTransition, useState } from "react";
+import {
+  ViewTransition,
+  addTransitionType,
+  startTransition,
+  useState,
+} from "react";
 import ReviewCard from "./ReviewCard";
 import ProfileCard from "./ProfileCard";
 import TabButton from "./TabButton";
@@ -32,6 +37,8 @@ function App() {
 
   const createTabClickHandler = (tab: "reviews" | "photos") => () => {
     startTransition(() => {
+      addTransitionType(`navigate-to-${tab}`);
+
       setCurrentTab(tab);
     });
   };
@@ -70,38 +77,45 @@ function App() {
           )}
 
           <div className="mt-4">
-            {currentTab === "reviews" && (
-              <div className="space-y-4">
-                {selectedProfile
-                  ? profileData[selectedProfile] && (
-                      <ProfileCard
-                        profile={profileData[selectedProfile]}
-                        onBack={handleBackClick}
-                      />
-                    )
-                  : reviews.map((review, index) => (
-                      <ReviewCard
-                        key={index}
-                        review={review}
-                        index={index}
-                        onNameClick={() => handleNameClick(review.name)}
-                      />
-                    ))}
-              </div>
-            )}
+            <ViewTransition
+              default={{
+                "navigate-to-reviews": "slide-right",
+                "navigate-to-photos": "slide-left",
+              }}
+            >
+              {currentTab === "reviews" && (
+                <div className="space-y-4">
+                  {selectedProfile
+                    ? profileData[selectedProfile] && (
+                        <ProfileCard
+                          profile={profileData[selectedProfile]}
+                          onBack={handleBackClick}
+                        />
+                      )
+                    : reviews.map((review, index) => (
+                        <ReviewCard
+                          key={index}
+                          review={review}
+                          index={index}
+                          onNameClick={() => handleNameClick(review.name)}
+                        />
+                      ))}
+                </div>
+              )}
 
-            {currentTab === "photos" && (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    className="w-full h-40 object-cover rounded-lg"
-                    src={image.src}
-                    alt={image.alt}
-                  />
-                ))}
-              </div>
-            )}
+              {currentTab === "photos" && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {images.map((image, index) => (
+                    <img
+                      key={index}
+                      className="w-full h-40 object-cover rounded-lg"
+                      src={image.src}
+                      alt={image.alt}
+                    />
+                  ))}
+                </div>
+              )}
+            </ViewTransition>
           </div>
         </div>
       </div>

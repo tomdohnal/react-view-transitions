@@ -10,3 +10,55 @@
   /* needed to prevent the text from appearing outside the card when animating the height change, this ensures a "reveal" effect */
   overflow: hidden;
 }
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-to-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(.slide-left) {
+  animation: slide-to-left 0.3s both ease-out, fade-out 0.3s both ease-out;
+}
+
+::view-transition-new(.slide-left) {
+  animation: slide-from-right 0.3s both ease-out, fade-in 0.3s both ease-out;
+}
+
+::view-transition-old(.slide-right) {
+  animation: slide-to-right 0.3s both ease-out, fade-out 0.3s both ease-out;
+}
+
+::view-transition-new(.slide-right) {
+  animation: slide-from-left 0.3s both ease-out, fade-in 0.3s both ease-out;
+}
